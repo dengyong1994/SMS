@@ -15,12 +15,16 @@ import com.dengyong.common.utils.text.Convert;
 import com.dengyong.framework.aspectj.lang.annotation.DataScope;
 import com.dengyong.framework.shiro.service.PasswordService;
 import com.dengyong.projects.system.config.service.IConfigService;
-
-
+import com.dengyong.projects.system.post.domain.Post;
+import com.dengyong.projects.system.post.mapper.PostMapper;
 import com.dengyong.projects.system.role.domain.Role;
+import com.dengyong.projects.system.role.mapper.RoleMapper;
 import com.dengyong.projects.system.user.domain.User;
+import com.dengyong.projects.system.user.domain.UserPost;
+import com.dengyong.projects.system.user.domain.UserRole;
 import com.dengyong.projects.system.user.mapper.UserMapper;
-
+import com.dengyong.projects.system.user.mapper.UserPostMapper;
+import com.dengyong.projects.system.user.mapper.UserRoleMapper;
 
 /**
  * 用户 业务层处理
@@ -35,6 +39,17 @@ public class UserServiceImpl implements IUserService
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private RoleMapper roleMapper;
+
+    @Autowired
+    private PostMapper postMapper;
+
+    @Autowired
+    private UserPostMapper userPostMapper;
+
+    @Autowired
+    private UserRoleMapper userRoleMapper;
 
     @Autowired
     private IConfigService configService;
@@ -105,7 +120,21 @@ public class UserServiceImpl implements IUserService
         return userMapper.selectUserById(userId);
     }
 
-
+    /**
+     * 通过用户ID删除用户
+     * 
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @Override
+    public int deleteUserById(Long userId)
+    {
+        // 删除用户与角色关联
+        userRoleMapper.deleteUserRoleByUserId(userId);
+        // 删除用户与岗位表
+        userPostMapper.deleteUserPostByUserId(userId);
+        return userMapper.deleteUserById(userId);
+    }
 
     /**
      * 批量删除用户信息
@@ -159,7 +188,16 @@ public class UserServiceImpl implements IUserService
     @Transactional
     public int updateUser(User user)
     {
-        
+        Long userId = user.getUserId();
+        user.setUpdateBy(ShiroUtils.getLoginName());
+        // 删除用户与角色关联
+        userRoleMapper.deleteUserRoleByUserId(userId);
+        // 新增用户与角色管理
+        insertUserRole(user);
+        // 删除用户与岗位关联
+        userPostMapper.deleteUserPostByUserId(userId);
+        // 新增用户与岗位管理
+        insertUserPost(user);
         return userMapper.updateUser(user);
     }
 
@@ -196,7 +234,23 @@ public class UserServiceImpl implements IUserService
      */
     public void insertUserRole(User user)
     {
-      
+        Long[] roles = user.getRoleIds();
+        if (StringUtils.isNotNull(roles))
+        {
+            // 新增用户与角色管理
+            List<UserRole> list = new ArrayList<UserRole>();
+            for (Long roleId : user.getRoleIds())
+            {
+                UserRole ur = new UserRole();
+                ur.setUserId(user.getUserId());
+                ur.setRoleId(roleId);
+                list.add(ur);
+            }
+            if (list.size() > 0)
+            {
+                userRoleMapper.batchUserRole(list);
+            }
+        }
     }
 
     /**
@@ -206,7 +260,23 @@ public class UserServiceImpl implements IUserService
      */
     public void insertUserPost(User user)
     {
-     
+        Long[] posts = user.getPostIds();
+        if (StringUtils.isNotNull(posts))
+        {
+            // 新增用户与岗位管理
+            List<UserPost> list = new ArrayList<UserPost>();
+            for (Long postId : user.getPostIds())
+            {
+                UserPost up = new UserPost();
+                up.setUserId(user.getUserId());
+                up.setPostId(postId);
+                list.add(up);
+            }
+            if (list.size() > 0)
+            {
+                userPostMapper.batchUserPost(list);
+            }
+        }
     }
 
     /**
@@ -271,9 +341,16 @@ public class UserServiceImpl implements IUserService
     @Override
     public String selectUserRoleGroup(Long userId)
     {
-        
+        List<Role> list = roleMapper.selectRolesByUserId(userId);
         StringBuffer idsStr = new StringBuffer();
-       
+        for (Role role : list)
+        {
+            idsStr.append(role.getRoleName()).append(",");
+        }
+        if (StringUtils.isNotEmpty(idsStr.toString()))
+        {
+            return idsStr.substring(0, idsStr.length() - 1);
+        }
         return idsStr.toString();
     }
 
@@ -286,9 +363,16 @@ public class UserServiceImpl implements IUserService
     @Override
     public String selectUserPostGroup(Long userId)
     {
-      
+        List<Post> list = postMapper.selectPostsByUserId(userId);
         StringBuffer idsStr = new StringBuffer();
-        
+        for (Post post : list)
+        {
+            idsStr.append(post.getPostName()).append(",");
+        }
+        if (StringUtils.isNotEmpty(idsStr.toString()))
+        {
+            return idsStr.substring(0, idsStr.length() - 1);
+        }
         return idsStr.toString();
     }
 
@@ -374,10 +458,4 @@ public class UserServiceImpl implements IUserService
         }
         return userMapper.updateUser(user);
     }
-
-	@Override
-	public int deleteUserById(Long userId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 }
