@@ -43,7 +43,7 @@ public class LoginService
      * 登录
      */
     public User login(String username, String password)
-    {	Object attribute = ServletUtils.getRequest().getAttribute(ShiroConstants.CURRENT_CAPTCHA);
+    {	
         // 验证码校验
         if (!StringUtils.isEmpty(ServletUtils.getRequest().getAttribute(ShiroConstants.CURRENT_CAPTCHA)))
         {

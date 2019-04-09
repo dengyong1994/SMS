@@ -30,7 +30,6 @@ import com.dengyong.framework.shiro.web.filter.captcha.CaptchaValidateFilter;
 import com.dengyong.framework.shiro.web.filter.online.OnlineSessionFilter;
 import com.dengyong.framework.shiro.web.filter.sync.SyncOnlineSessionFilter;
 import com.dengyong.framework.shiro.web.session.OnlineWebSessionManager;
-import com.dengyong.framework.shiro.web.session.SpringSessionValidationScheduler;
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 
 /**

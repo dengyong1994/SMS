@@ -8,13 +8,13 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.apache.shiro.session.ExpiredSessionException;
 import org.apache.shiro.session.InvalidSessionException;
 import org.apache.shiro.session.Session;
-import org.apache.shiro.session.mgt.DefaultSessionKey;
+
 import org.apache.shiro.session.mgt.SessionKey;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.dengyong.common.constant.ShiroConstants;
-import com.dengyong.common.utils.spring.SpringUtils;
+
 import com.dengyong.projects.monitor.online.domain.OnlineSession;
 
 

@@ -6,10 +6,15 @@ import org.apache.shiro.session.SessionException;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.dengyong.common.constant.Constants;
+import com.dengyong.common.utils.MessageUtils;
 /*import com.dengyong.common.constant.Constants;
 import com.dengyong.common.utils.MessageUtils;*/
 import com.dengyong.common.utils.StringUtils;
 import com.dengyong.common.utils.security.ShiroUtils;
+import com.dengyong.framework.manager.AsyncManager;
+import com.dengyong.framework.manager.factory.AsyncFactory;
 /*import com.dengyong.framework.manager.AsyncManager;
 import com.dengyong.framework.manager.factory.AsyncFactory;*/
 import com.dengyong.projects.system.user.domain.User;
@@ -52,7 +57,7 @@ public class LogoutFilter extends org.apache.shiro.web.filter.authc.LogoutFilter
                 {
                     String loginName = user.getLoginName();
                     // 记录用户退出日志
-                   // AsyncManager.me().execute(AsyncFactory.recordLogininfor(loginName, Constants.LOGOUT, MessageUtils.message("user.logout.success")));
+                    AsyncManager.me().execute(AsyncFactory.recordLogininfor(loginName, Constants.LOGOUT, MessageUtils.message("user.logout.success")));
                 }
                 // 退出登录
                 subject.logout();

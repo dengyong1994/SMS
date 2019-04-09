@@ -12,7 +12,6 @@ import com.dengyong.common.utils.AddressUtils;
 import com.dengyong.common.utils.LogUtils;*/
 import com.dengyong.common.utils.ServletUtils;
 import com.dengyong.common.utils.security.ShiroUtils;
-import com.dengyong.common.utils.spring.SpringUtils;
 import com.dengyong.projects.monitor.logininfor.domain.Logininfor;
 /*import com.dengyong.projects.monitor.logininfor.domain.Logininfor;
 import com.dengyong.projects.monitor.logininfor.service.LogininforServiceImpl;*/
