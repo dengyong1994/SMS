@@ -6,10 +6,15 @@ import org.apache.shiro.session.SessionException;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.dengyong.common.constant.Constants;
+import com.dengyong.common.utils.MessageUtils;
 /*import com.dengyong.common.constant.Constants;
 import com.dengyong.common.utils.MessageUtils;*/
 import com.dengyong.common.utils.StringUtils;
 import com.dengyong.common.utils.security.ShiroUtils;
+import com.dengyong.framework.manager.AsyncManager;
+import com.dengyong.framework.manager.factory.AsyncFactory;
 /*import com.dengyong.framework.manager.AsyncManager;
 import com.dengyong.framework.manager.factory.AsyncFactory;*/
 import com.dengyong.projects.system.user.domain.User;

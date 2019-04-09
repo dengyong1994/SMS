@@ -13,9 +13,7 @@ import com.dengyong.common.utils.security.ShiroUtils;
 import com.dengyong.framework.web.domain.AjaxResult;
 import com.dengyong.framework.web.page.TableDataInfo;
 import com.dengyong.common.utils.sql.SqlUtil;
-import com.dengyong.framework.web.domain.AjaxResult;
 import com.dengyong.framework.web.page.PageDomain;
-import com.dengyong.framework.web.page.TableDataInfo;
 import com.dengyong.framework.web.page.TableSupport;
 import com.dengyong.projects.system.user.domain.User;
 
