@@ -5,7 +5,7 @@ import javax.servlet.ServletResponse;
 import org.apache.shiro.web.filter.PathMatchingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.dengyong.common.constant.ShiroConstants;
-
+import com.dengyong.framework.shiro.session.OnlineSessionDAO;
 import com.dengyong.projects.monitor.online.domain.OnlineSession;
 
 /**
@@ -16,7 +16,7 @@ import com.dengyong.projects.monitor.online.domain.OnlineSession;
 public class SyncOnlineSessionFilter extends PathMatchingFilter
 {
     @Autowired
-   // private OnlineSessionDAO onlineSessionDAO;
+    private OnlineSessionDAO onlineSessionDAO;
 
     /**
      * 同步会话数据到DB 一次请求最多同步一次 防止过多处理 需要放到Shiro过滤器之前
