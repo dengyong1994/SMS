@@ -2,7 +2,8 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.dengyong.projects.construction.workpalce.mapper.WorkplaceMapper">
+<mapper namespace="com.dengyong.projects.construction.workplace.mapper.WorkplaceMapper">
+					
 
 	<resultMap type="Workplace" id="WorkplaceResult">
 		<id     property="workplaceId"       column="Workplace_id"      />
@@ -18,28 +19,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="workplaceSort"       column="workplace_sort"       />
 	</resultMap>
 	
-	<sql id="selectUserVo">
-        select  u.user_id, u.dept_id, u.login_name, u.user_name, u.email, u.phone_number, u.sex, u.avatar, u.password, u.salt, u.status, u.del_flag, u.login_ip, u.login_date, u.create_time, u.remark,
-       		    d.dept_id, d.parent_id, d.dept_name, d.order_num, d.status as dept_status,
-       		    r.role_id, r.role_name, r.role_key, r.role_sort, r.data_scope, r.status as role_status
-		from sms_user u
-			 left join sms_dept d on u.dept_id = d.dept_id
-			 left join sms_user_role ur on u.user_id = ur.user_id
-			 left join sms_role r on r.role_id = ur.role_id
-    </sql>
 	<sql id="selectWorkplaceVo">
         select Workplace_id, Workplace_name, Workplace_place, Workplace_status, Workplace_flag, create_user, create_time, update_user ,update_time ,remark ,workplace_sort
-		from sms_workplace
+		from sms_workplace 
     </sql>
 	
 	<select id="selectWorkplaceList" parameterType="Workplace" resultMap="WorkplaceResult">
 	    <include refid="selectWorkplaceVo"/>
+	    where workplace_flag = '0'
 		<where>
 			<if test="workplaceId != null and workplaceId != ''">
-				AND workplace_id like concat('%', #{workplaceid}, '%')
+				AND workplace_id like concat('%', #{workplaceId}, '%')
 			</if>
 			<if test="workplaceStatus != null and workplaceStatus != ''">
 				AND workplace_status = #{workplaceStatus}
+			</if>
+			<if test="workplacePlace != null and workplacePlace != ''">
+				AND workplace_place like concat('%', #{workplacePlace}, '%')
 			</if>
 			<if test="workplaceName != null and workplaceName != ''">
 				AND workplace_name like concat('%', #{workplaceName}, '%')
@@ -47,97 +43,54 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</where>
 	</select>
 	
-	<select id="selectUserByLoginName" parameterType="String" resultMap="WorkplaceResult">
-	    <include refid="selectUserVo"/>
-		where u.login_name = #{userName}
+	<select id="checkWorkplaceNameUnique" parameterType="String" resultMap="WorkplaceResult">
+		<include refid="selectWorkplaceVo"/>
+		 where workplace_name=#{workplaceName}
 	</select>
 	
-	<select id="selectUserByPhoneNumber" parameterType="String" resultMap="WorkplaceResult">
-		<include refid="selectUserVo"/>
-		where u.phone_number = #{phonenumber}
+	
+	<select id="selectWorkplaceById" parameterType="Long" resultMap="WorkplaceResult">
+		<include refid="selectWorkplaceVo"/>
+		where workplace_id = #{workplaceId}
 	</select>
 	
-	<select id="selectUserByEmail" parameterType="String" resultMap="WorkplaceResult">
-	    <include refid="selectUserVo"/>
-		where u.email = #{email}
-	</select>
 	
-	<select id="checkLoginNameUnique" parameterType="String" resultType="int">
-		select count(1) from sms_user where login_name=#{loginName}
-	</select>
-	
-	<select id="checkPhoneUnique" parameterType="String" resultMap="WorkplaceResult">
-		select user_id, phone_number from sms_user where phone_number=#{phonenumber}
-	</select>
-	
-	<select id="checkEmailUnique" parameterType="String" resultMap="WorkplaceResult">
-		select user_id, email from sms_user where email=#{email}
-	</select>
-	
-	<select id="selectUserById" parameterType="Long" resultMap="WorkplaceResult">
-		<include refid="selectUserVo"/>
-		where u.user_id = #{userId}
-	</select>
-	
-	<delete id="deleteUserById" parameterType="Long">
- 		delete from sms_user where user_id = #{userId}
- 	</delete>
  	
- 	<delete id="deleteUserByIds" parameterType="Long">
- 		update sms_user set del_flag = '2' where user_id in
- 		<foreach collection="array" item="userId" open="(" separator="," close=")">
- 			#{userId}
+ 	<delete id="deleteWorkplaceByIds" parameterType="Long">
+ 		update sms_workplace set workplace_flag = '2' where workplace_id in
+ 		<foreach collection="array" item="workplaceId" open="(" separator="," close=")">
+ 			#{workplaceId}
         </foreach> 
  	</delete>
  	
- 	<update id="updateUser" parameterType="User">
- 		update sms_user
+ 	<update id="updateWorkplace" parameterType="Workplace">
+ 		update sms_workplace
  		<set>
- 			<if test="deptId != null and deptId != 0">dept_id = #{deptId},</if>
- 			<if test="loginName != null and loginName != ''">login_name = #{loginName},</if>
- 			<if test="userName != null and userName != ''">user_name = #{userName},</if>
- 			<if test="email != null and email != ''">email = #{email},</if>
- 			<if test="phonenumber != null and phonenumber != ''">phone_number = #{phonenumber},</if>
- 			<if test="sex != null and sex != ''">sex = #{sex},</if>
- 			<if test="avatar != null and avatar != ''">avatar = #{avatar},</if>
- 			<if test="password != null and password != ''">password = #{password},</if>
- 			<if test="salt != null and salt != ''">salt = #{salt},</if>
- 			<if test="status != null and status != ''">status = #{status},</if>
- 			<if test="loginIp != null and loginIp != ''">login_ip = #{loginIp},</if>
- 			<if test="loginDate != null">login_date = #{loginDate},</if>
+ 			<if test="workplaceName != null and workplaceName != ''">workplace_name = #{workplaceName},</if>
+ 			<if test="workplacePlace != null and workplacePlace != ''">workplace_place = #{workplacePlace},</if>
+ 			<if test="workplaceSort != null and workplaceSort != ''">workplace_sort = #{workplaceSort},</if>
+ 			<if test="workplaceStatus != null and workplaceStatus != ''">workplace_status = #{workplaceStatus},</if>
  			<if test="updateBy != null and updateBy != ''">update_user = #{updateBy},</if>
  			<if test="remark != null and remark != ''">remark = #{remark},</if>
  			update_time = sysdate()
  		</set>
- 		where user_id = #{userId}
+ 		where workplace_id = #{workplaceId}
 	</update>
  	
- 	<insert id="insertUser" parameterType="User" useGeneratedKeys="true" keyProperty="userId">
- 		insert into sms_user(
- 			<if test="userId != null and userId != 0">user_id,</if>
- 			<if test="deptId != null and deptId != 0">dept_id,</if>
- 			<if test="loginName != null and loginName != ''">login_name,</if>
- 			<if test="userName != null and userName != ''">user_name,</if>
- 			<if test="email != null and email != ''">email,</if>
- 			<if test="phonenumber != null and phonenumber != ''">phone_number,</if>
- 			<if test="sex != null and sex != ''">sex,</if>
- 			<if test="password != null and password != ''">password,</if>
- 			<if test="salt != null and salt != ''">salt,</if>
- 			<if test="status != null and status != ''">status,</if>
+ 	<insert id="insertWorkplace" parameterType="Workplace" useGeneratedKeys="true" keyProperty="workplaceId">
+ 		insert into sms_workplace(
+ 			<if test="workplaceName != null and workplaceName != ''">workplace_name,</if>
+ 			<if test="workplacePlace != null and workplacePlace != ''">workplace_place,</if>
+ 			<if test="workplaceSort != null and workplaceSort != ''">workplace_sort,</if>
+ 			<if test="workplaceStatus != null and workplaceStatus != ''">workplace_status,</if>
  			<if test="createBy != null and createBy != ''">create_user,</if>
  			<if test="remark != null and remark != ''">remark,</if>
  			create_time
  		)values(
- 			<if test="userId != null and userId != ''">#{userId},</if>
- 			<if test="deptId != null and deptId != ''">#{deptId},</if>
- 			<if test="loginName != null and loginName != ''">#{loginName},</if>
- 			<if test="userName != null and userName != ''">#{userName},</if>
- 			<if test="email != null and email != ''">#{email},</if>
- 			<if test="phonenumber != null and phonenumber != ''">#{phonenumber},</if>
- 			<if test="sex != null and sex != ''">#{sex},</if>
- 			<if test="password != null and password != ''">#{password},</if>
- 			<if test="salt != null and salt != ''">#{salt},</if>
- 			<if test="status != null and status != ''">#{status},</if>
+ 			<if test="workplaceName != null and workplaceName != ''">#{workplaceName},</if>
+ 			<if test="workplacePlace != null and workplacePlace != ''">#{workplacePlace},</if>
+ 			<if test="workplaceSort != null and workplaceSort != ''">#{workplaceSort},</if>
+ 			<if test="workplaceStatus != null and workplaceStatus != ''">#{workplaceStatus},</if>
  			<if test="createBy != null and createBy != ''">#{createBy},</if>
  			<if test="remark != null and remark != ''">#{remark},</if>
  			sysdate()

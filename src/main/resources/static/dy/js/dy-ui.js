@@ -320,6 +320,7 @@
             },
             // 条件查询
             search: function(formId) {
+            	debugger
             	var currentId = $.common.isEmpty(formId) ? $('form').attr('id') : formId;
             	var params = {};
             	$.each($("#" + currentId).serializeArray(), function(i, field) {

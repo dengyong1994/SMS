@@ -8,7 +8,7 @@
 	<div class="container-div">
 		<div class="row">
 			<div class="col-sm-12 search-collapse">
-				<form id="post-form">
+				<form id="workplace-form">
 					<div class="select-list">
 						<ul>
 							<li>
@@ -18,7 +18,10 @@
 								工地名称：<input type="text" name="workplaceName"/>
 							</li>
 							<li>
-								工地状态：<select name="status" th:with="type=${@dict.getType('sys_normal_disable')}">
+								工地地点：<input type="text" name="workplacePlace"/>
+							</li>
+							<li>
+								工地状态：<select name="workplaceStatus" th:with="type=${@dict.getType('sys_normal_disable')}">
 									<option value="">所有</option>
 									<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
 								</select>
@@ -62,7 +65,7 @@
 		        createUrl: prefix + "/add",
 		        updateUrl: prefix + "/edit/{id}",
 		        removeUrl: prefix + "/remove",
-		        sortName: "postSort",
+		        sortName: "workplaceSort",
 		        modalName: "工地",
 		        columns: [{
 		            checkbox: true
@@ -76,6 +79,10 @@
 		            field: 'workplaceName',
 		            title: '工地名称',
 		            sortable: true
+		        },
+		        {
+		            field: 'workplacePlace',
+		            title: '工地地点',
 		        },
 		        {
 		            field: 'workplaceSort',
@@ -94,6 +101,10 @@
 		            field: 'createTime',
 		            title: '创建时间',
 		            sortable: true
+		        },
+		        {
+		            field: 'remark',
+		            title: '备注',
 		        },
 		        {
 		            title: '操作',

@@ -17,7 +17,9 @@ E:\SMS\src\main\java\com\dengyong\common\exception\user\UserDeleteException.java
 E:\SMS\src\main\java\com\dengyong\projects\system\role\service\RoleServiceImpl.java
 E:\SMS\src\main\java\com\dengyong\common\utils\text\Convert.java
 E:\SMS\src\main\java\com\dengyong\framework\shiro\web\filter\LogoutFilter.java
+E:\SMS\src\main\java\com\dengyong\projects\system\user\mapper\UserWorkplaceMapper.java
 E:\SMS\src\main\java\com\dengyong\common\exception\user\CaptchaException.java
+E:\SMS\src\main\java\com\dengyong\projects\construction\workplace\controller\WorkplaceController.java
 E:\SMS\src\main\java\com\dengyong\common\utils\file\FileUtils.java
 E:\SMS\src\main\java\com\dengyong\projects\system\config\mapper\ConfigMapper.java
 E:\SMS\src\main\java\com\dengyong\projects\system\notice\service\NoticeServiceImpl.java
@@ -37,6 +39,8 @@ E:\SMS\src\main\java\com\dengyong\projects\system\dict\service\DictDataServiceIm
 E:\SMS\src\main\java\com\dengyong\framework\aspectj\lang\annotation\Log.java
 E:\SMS\src\main\java\com\dengyong\SMSApplication.java
 E:\SMS\src\main\java\com\dengyong\common\constant\UserConstants.java
+E:\SMS\src\main\java\com\dengyong\projects\construction\workplace\service\IWorkplaceService.java
+E:\SMS\src\main\java\com\dengyong\projects\construction\workplace\mapper\WorkplaceMapper.java
 E:\SMS\src\main\java\com\dengyong\common\exception\base\BaseException.java
 E:\SMS\src\main\java\com\dengyong\common\exception\file\FileException.java
 E:\SMS\src\main\java\com\dengyong\framework\web\page\PageDomain.java
@@ -70,7 +74,9 @@ E:\SMS\src\main\java\com\dengyong\projects\system\config\service\IConfigService.
 E:\SMS\src\main\java\com\dengyong\framework\shiro\service\PasswordService.java
 E:\SMS\src\main\java\com\dengyong\framework\web\page\TableDataInfo.java
 E:\SMS\src\main\java\com\dengyong\framework\web\page\TableSupport.java
+E:\SMS\src\main\java\com\dengyong\projects\construction\workplace\service\WorkplaceServiceImpl.java
 E:\SMS\src\main\java\com\dengyong\framework\web\domain\AjaxResult.java
+E:\SMS\src\main\java\com\dengyong\projects\construction\workplace\domain\Workplace.java
 E:\SMS\src\main\java\com\dengyong\projects\system\menu\mapper\MenuMapper.java
 E:\SMS\src\main\java\com\dengyong\projects\system\role\mapper\RoleMenuMapper.java
 E:\SMS\src\main\java\com\dengyong\common\utils\reflect\ReflectUtils.java
@@ -99,6 +105,7 @@ E:\SMS\src\main\java\com\dengyong\common\utils\Md5Utils.java
 E:\SMS\src\main\java\com\dengyong\projects\monitor\operlog\domain\OperLog.java
 E:\SMS\src\main\java\com\dengyong\projects\monitor\online\domain\OnlineSession.java
 E:\SMS\src\main\java\com\dengyong\projects\system\role\service\IRoleService.java
+E:\SMS\src\main\java\com\dengyong\projects\system\user\domain\UserWorkplace.java
 E:\SMS\src\main\java\com\dengyong\common\exception\file\InvalidExtensionException.java
 E:\SMS\src\main\java\com\dengyong\projects\system\dict\mapper\DictTypeMapper.java
 E:\SMS\src\main\java\com\dengyong\projects\system\dict\domain\DictData.java

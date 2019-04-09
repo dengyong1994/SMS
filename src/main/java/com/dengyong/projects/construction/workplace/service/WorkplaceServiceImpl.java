@@ -10,12 +10,10 @@ import com.dengyong.common.utils.security.ShiroUtils;
 import com.dengyong.common.utils.text.Convert;
 import com.dengyong.projects.construction.workplace.domain.Workplace;
 import com.dengyong.projects.construction.workplace.mapper.WorkplaceMapper;
-import com.dengyong.projects.system.post.domain.Post;
-import com.dengyong.projects.system.post.mapper.PostMapper;
-import com.dengyong.projects.system.user.mapper.UserPostMapper;
+import com.dengyong.projects.system.user.mapper.UserWorkplaceMapper;
 
 /**
- * 岗位信息 服务层处理
+ * 工地信息 服务层处理
  * 
  * @author dengyong
  */
@@ -25,11 +23,9 @@ public class WorkplaceServiceImpl implements IWorkplaceService
     @Autowired
     private WorkplaceMapper workplaceMapper;
     
-    @Autowired
-    private PostMapper postMapper;
-    @Autowired
-    private UserPostMapper userPostMapper;
 
+    @Autowired
+    private UserWorkplaceMapper userWorkplaceMapper;
     /**
      * 查询工地信息集合
      * 
@@ -44,146 +40,94 @@ public class WorkplaceServiceImpl implements IWorkplaceService
         return selectWorkplaceList;
     }
 
-    /**
-     * 查询所有岗位
-     * 
-     * @return 岗位列表
-     */
-    @Override
-    public List<Post> selectPostAll()
-    {
-        return postMapper.selectPostAll();
-    }
 
     /**
-     * 根据用户ID查询岗位
+     * 通过工地ID查询工地信息
      * 
-     * @param userId 用户ID
-     * @return 岗位列表
-     */
-    @Override
-    public List<Post> selectPostsByUserId(Long userId)
-    {
-        List<Post> userPosts = postMapper.selectPostsByUserId(userId);
-        List<Post> posts = postMapper.selectPostAll();
-        for (Post post : posts)
-        {
-            for (Post userRole : userPosts)
-            {
-                if (post.getPostId().longValue() == userRole.getPostId().longValue())
-                {
-                    post.setFlag(true);
-                    break;
-                }
-            }
-        }
-        return posts;
-    }
-
-    /**
-     * 通过岗位ID查询岗位信息
-     * 
-     * @param postId 岗位ID
+     * @param workplaceId 工地ID
      * @return 角色对象信息
      */
     @Override
-    public Post selectPostById(Long postId)
+    public Workplace selectWorkplaceById(Long workplaceId)
     {
-        return postMapper.selectPostById(postId);
+        return workplaceMapper.selectWorkplaceById(workplaceId);
     }
 
     /**
-     * 批量删除岗位信息
+     * 批量删除工地信息
      * 
      * @param ids 需要删除的数据ID
      * @throws Exception
      */
     @Override
-    public int deletePostByIds(String ids) throws BusinessException
+    public int deleteWorkplaceByIds(String ids) throws BusinessException
     {
-        Long[] postIds = Convert.toLongArray(ids);
-        for (Long postId : postIds)
+        Long[] workplaceIds = Convert.toLongArray(ids);
+        for (Long workplaceId : workplaceIds)
         {
-            Post post = selectPostById(postId);
-            if (countUserPostById(postId) > 0)
+        	Workplace workplace = selectWorkplaceById(workplaceId);
+            if (countUserWorkplaceById(workplaceId) > 0)
             {
-                throw new BusinessException(String.format("%1$s已分配,不能删除", post.getPostName()));
+                throw new BusinessException(String.format("%1$s正在被使用,不能删除", workplace.getWorkplaceName()));
             }
         }
-        return postMapper.deletePostByIds(postIds);
+        return workplaceMapper.deleteWorkplaceByIds(workplaceIds);
     }
 
     /**
-     * 新增保存岗位信息
+     * 新增保存工地信息
      * 
-     * @param post 岗位信息
+     * @param workplace 工地信息
      * @return 结果
      */
     @Override
-    public int insertPost(Post post)
+    public int insertWorkplace(Workplace workplace)
     {
-        post.setCreateBy(ShiroUtils.getLoginName());
-        return postMapper.insertPost(post);
+    	workplace.setCreateBy(ShiroUtils.getLoginName());
+        return workplaceMapper.insertWorkplace(workplace);
     }
 
     /**
-     * 修改保存岗位信息
+     * 修改保存工地信息
      * 
-     * @param post 岗位信息
+     * @param workplace 工地信息
      * @return 结果
      */
     @Override
-    public int updatePost(Post post)
+    public int updateWorkplace(Workplace workplace)
     {
-        post.setUpdateBy(ShiroUtils.getLoginName());
-        return postMapper.updatePost(post);
+    	workplace.setUpdateBy(ShiroUtils.getLoginName());
+        return workplaceMapper.updateWorkplace(workplace);
     }
 
     /**
-     * 通过岗位ID查询岗位使用数量
+     * 通过工地ID查询工地使用数量
      * 
-     * @param postId 岗位ID
+     * @param workplaceId 工地ID
      * @return 结果
      */
     @Override
-    public int countUserPostById(Long postId)
+    public int countUserWorkplaceById(Long workplaceId)
     {
-        return userPostMapper.countUserPostById(postId);
+        return userWorkplaceMapper.countUserWorkplaceById(workplaceId);
     }
 
     /**
-     * 校验岗位名称是否唯一
+     * 校验工地名称是否唯一
      * 
-     * @param post 岗位信息
+     * @param workplace 工地信息
      * @return 结果
      */
     @Override
-    public String checkPostNameUnique(Post post)
+    public String checkWorkplaceNameUnique(Workplace workplace)
     {
-        Long postId = StringUtils.isNull(post.getPostId()) ? -1L : post.getPostId();
-        Post info = postMapper.checkPostNameUnique(post.getPostName());
-        if (StringUtils.isNotNull(info) && info.getPostId().longValue() != postId.longValue())
+        Long workplaceId = StringUtils.isNull(workplace.getWorkplaceId()) ? -1L : workplace.getWorkplaceId();
+        Workplace info = workplaceMapper.checkWorkplaceNameUnique(workplace.getWorkplaceName());
+        if (StringUtils.isNotNull(info) && info.getWorkplaceId().longValue() != workplaceId.longValue())
         {
             return UserConstants.POST_NAME_NOT_UNIQUE;
         }
         return UserConstants.POST_NAME_UNIQUE;
     }
 
-    /**
-     * 校验岗位编码是否唯一
-     * 
-     * @param post 岗位信息
-     * @return 结果
-     */
-    @Override
-    public String checkPostCodeUnique(Post post)
-    {
-        Long postId = StringUtils.isNull(post.getPostId()) ? -1L : post.getPostId();
-        Post info = postMapper.checkPostCodeUnique(post.getPostCode());
-        if (StringUtils.isNotNull(info) && info.getPostId().longValue() != postId.longValue())
-        {
-            return UserConstants.POST_CODE_NOT_UNIQUE;
-        }
-        return UserConstants.POST_CODE_UNIQUE;
-    }
 }
