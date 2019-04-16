@@ -8,6 +8,8 @@ import com.dengyong.common.exception.BusinessException;
 import com.dengyong.common.utils.StringUtils;
 import com.dengyong.common.utils.security.ShiroUtils;
 import com.dengyong.common.utils.text.Convert;
+import com.dengyong.projects.construction.workattendance.domain.Workattendance;
+import com.dengyong.projects.construction.workattendance.mapper.WorkattendanceMapper;
 import com.dengyong.projects.construction.workplace.domain.Workplace;
 import com.dengyong.projects.construction.workplace.mapper.WorkplaceMapper;
 import com.dengyong.projects.system.user.mapper.UserWorkplaceMapper;
@@ -21,8 +23,10 @@ import com.dengyong.projects.system.user.mapper.UserWorkplaceMapper;
 public class WorkattendanceServiceImpl implements IWorkattendanceService
 {
     @Autowired
-    private WorkplaceMapper workplaceMapper;
+    private WorkattendanceMapper workattendanceMapper;
     
+    @Autowired 
+    private WorkplaceMapper workplaceMapper;
 
     @Autowired
     private UserWorkplaceMapper userWorkplaceMapper;
@@ -33,10 +37,10 @@ public class WorkattendanceServiceImpl implements IWorkattendanceService
      * @return 工地信息集合
      */
     @Override
-    public List<Workplace> selectWorkplaceList(Workplace workplace)
+    public List<Workattendance> selectWorkattendanceList(Workattendance workattendance)
     {
     	
-    	List<Workplace> selectWorkplaceList = workplaceMapper.selectWorkplaceList(workplace);
+    	List<Workattendance> selectWorkplaceList = workattendanceMapper.selectWorkattendanceList(workattendance);
         return selectWorkplaceList;
     }
 

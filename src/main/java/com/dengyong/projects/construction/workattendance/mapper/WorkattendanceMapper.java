@@ -2,6 +2,7 @@ package com.dengyong.projects.construction.workattendance.mapper;
 
 import java.util.List;
 
+import com.dengyong.projects.construction.workattendance.domain.Workattendance;
 import com.dengyong.projects.construction.workplace.domain.Workplace;
 
 /**
@@ -17,7 +18,7 @@ public interface WorkattendanceMapper
      * @param Workplace 工地信息
      * @return 工地数据集合
      */
-    public List<Workplace> selectWorkplaceList(Workplace workplace);
+    public List<Workattendance> selectWorkattendanceList(Workattendance workattendance);
 
 
     /**

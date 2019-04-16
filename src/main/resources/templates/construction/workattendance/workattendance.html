@@ -12,19 +12,10 @@
 					<div class="select-list">
 						<ul>
 							<li>
-								工地编号：<input type="text" name="workplaceId"/>
-							</li>
-							<li>
 								工地名称：<input type="text" name="workplaceName"/>
 							</li>
 							<li>
-								工地地点：<input type="text" name="workplacePlace"/>
-							</li>
-							<li>
-								工地状态：<select name="workplaceStatus" th:with="type=${@dict.getType('sys_normal_disable')}">
-									<option value="">所有</option>
-									<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
-								</select>
+								用户名称：<input type="text" name="userName"/>
 							</li>
 							<li>
 								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -36,13 +27,13 @@
 			</div>
 			
 			<div class="btn-group-sm" id="toolbar" role="group">
-				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="construction:workplace:add">
+				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="construction:workattendance:add">
 	                <i class="fa fa-plus"></i> 新增
 	            </a>
-				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="construction:workplace:edit">
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="construction:workattendance:edit">
 		            <i class="fa fa-edit"></i> 修改
 		        </a>
-				<a class="btn btn-danger btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="construction:workplaceremove">
+				<a class="btn btn-danger btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="construction:workattendance:remove">
 		            <i class="fa fa-remove"></i> 删除
 		        </a>
 	        </div>
@@ -56,7 +47,6 @@
 	<script th:inline="javascript">
 		var editFlag = [[${@permission.hasPermi('construction:workattendance:edit')}]];
 		var removeFlag = [[${@permission.hasPermi('construction:workattendance:remove')}]];
-		var datas = [[${@dict.getType('sys_normal_disable')}]];
 		var prefix = ctx + "construction/workattendance";
 
 		$(function() {
@@ -65,37 +55,29 @@
 		        createUrl: prefix + "/add",
 		        updateUrl: prefix + "/edit/{id}",
 		        removeUrl: prefix + "/remove",
-		        sortName: "workplaceSort",
-		        modalName: "工地",
+		        sortName: "workattendanceId",
+		        modalName: "考勤",
 		        columns: [{
 		            checkbox: true
 		        },
 		        {
-		            field: 'workplaceId',
-		            title: '工地编号',
+		            field: 'workattendanceId',
+		            title: '考勤编号',
 		            sortable: true
 		        },
 		        {
-		            field: 'workplaceName',
+		            field: 'user.userName',
+		            title: '用户名称',
+		            sortable: true
+		        },
+		        {
+		            field: 'workplace.workplaceName',
 		            title: '工地名称',
-		            sortable: true
 		        },
 		        {
-		            field: 'workplacePlace',
-		            title: '工地地点',
-		        },
-		        {
-		            field: 'workplaceSort',
-		            title: '显示顺序',
-		            sortable: true
-		        },
-		        {
-		            field: 'workplaceStatus',
-		            title: '状态',
+		            field: 'workHour',
+		            title: '工时',
 		            align: 'center',
-		            formatter: function(value, row, index) {
-		            	return $.table.selectDictLabel(datas, value);
-		            }
 		        },
 		        {
 		            field: 'createTime',

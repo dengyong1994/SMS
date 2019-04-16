@@ -15,6 +15,8 @@ import com.dengyong.framework.aspectj.lang.enums.BusinessType;
 import com.dengyong.framework.web.controller.BaseController;
 import com.dengyong.framework.web.domain.AjaxResult;
 import com.dengyong.framework.web.page.TableDataInfo;
+import com.dengyong.projects.construction.workattendance.domain.Workattendance;
+import com.dengyong.projects.construction.workattendance.service.IWorkattendanceService;
 import com.dengyong.projects.construction.workplace.domain.Workplace;
 import com.dengyong.projects.construction.workplace.service.IWorkplaceService;
 
@@ -31,7 +33,7 @@ public class WorkattendanceController extends BaseController
 
     
     @Autowired
-    private IWorkplaceService workplaceService;
+    private IWorkattendanceService workattendanceService;
     @RequiresPermissions("construction:workattendance:view")
     @GetMapping()
     public String workplace()
@@ -42,10 +44,10 @@ public class WorkattendanceController extends BaseController
     @RequiresPermissions("construction:workattendance:list")
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(Workplace workplace)
+    public TableDataInfo list(Workattendance workattendance)
     {
         startPage();
-        List<Workplace> list = workplaceService.selectWorkplaceList(workplace);
+        List<Workattendance> list = workattendanceService.selectWorkattendanceList(workattendance);
         return getDataTable(list);
     }
 
@@ -60,7 +62,7 @@ public class WorkattendanceController extends BaseController
     {
         try
         {
-            return toAjax(workplaceService.deleteWorkplaceByIds(ids));
+            return toAjax(workattendanceService.deleteWorkplaceByIds(ids));
         }
         catch (Exception e)
         {
@@ -86,7 +88,7 @@ public class WorkattendanceController extends BaseController
     @ResponseBody
     public AjaxResult addSave(Workplace workplace)
     {
-        return toAjax(workplaceService.insertWorkplace(workplace));
+        return toAjax(workattendanceService.insertWorkplace(workplace));
     }
 
     /**
@@ -95,7 +97,7 @@ public class WorkattendanceController extends BaseController
     @GetMapping("/edit/{workattendanceId}")
     public String edit(@PathVariable("workattendanceId") Long workplaceId, ModelMap mmap)
     {
-        mmap.put("workattendance", workplaceService.selectWorkplaceById(workplaceId));
+        mmap.put("workattendance", workattendanceService.selectWorkplaceById(workplaceId));
         return prefix + "/edit";
     }
 
@@ -108,7 +110,7 @@ public class WorkattendanceController extends BaseController
     @ResponseBody
     public AjaxResult editSave(Workplace workplace)
     {
-        return toAjax(workplaceService.updateWorkplace(workplace));
+        return toAjax(workattendanceService.updateWorkplace(workplace));
     }
 
     /**
@@ -118,7 +120,7 @@ public class WorkattendanceController extends BaseController
     @ResponseBody
     public String checkWorkplaceNameUnique(Workplace workplace)
     {
-        return workplaceService.checkWorkplaceNameUnique(workplace);
+        return workattendanceService.checkWorkplaceNameUnique(workplace);
     }
 
 }
