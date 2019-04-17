@@ -29,6 +29,13 @@ public interface WorkplaceMapper
     public Workplace selectWorkplaceById(Long workplace);
 
     /**
+     * 通过工地ID查询工地信息
+     * 
+     * @param workplace 工地ID
+     * @return 角色对象信息
+     */
+    public Workplace selectWorkplaceNameById(Long workplace);
+    /**
      * 批量删除工地信息
      * 
      * @param ids 需要删除的数据ID
@@ -59,5 +66,11 @@ public interface WorkplaceMapper
      * @return 结果
      */
     public Workplace checkWorkplaceNameUnique(String workplace);
+
+    /**
+     * 查询所有工地
+     * @return 工地列表
+     */
+	public List<Workplace> selectWorkplaceAll();
 
 }

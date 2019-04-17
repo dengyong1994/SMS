@@ -23,12 +23,12 @@ public interface IWorkattendanceService
 
 
     /**
-     * 通过工地ID查询岗位信息
+     * 通过考勤ID查询考勤信息
      * 
-     * @param workplaceId 工地ID
-     * @return 角色对象信息
+     * @param workplaceId 考勤ID
+     * @return 考勤对象信息
      */
-    public Workplace selectWorkplaceById(Long workplaceId);
+    public Workattendance selectWorkattendanceById(Long workattendance);
 
     /**
      * 批量删除工地信息
@@ -45,7 +45,7 @@ public interface IWorkattendanceService
      * @param workplace 工地信息
      * @return 结果
      */
-    public int insertWorkplace(Workplace workplace);
+    public int insertWorkplace(Workattendance workattendance);
 
     /**
      * 修改保存工地信息

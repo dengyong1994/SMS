@@ -25,6 +25,17 @@ public class Workattendance extends BaseEntity {
 
 	/** 工时 */
 	private Double workHour;
+	
+	/** 用户组 */
+    private Long[] userIds;
+    
+	public Long[] getUserIds() {
+		return userIds;
+	}
+
+	public void setUserIds(Long[] userIds) {
+		this.userIds = userIds;
+	}
 
 	/** 工地id */
 	private Long workplaceId;
@@ -52,14 +63,12 @@ public class Workattendance extends BaseEntity {
 	// 创建人员
 	private String createUser;
 
-	// 工地排序
-	private String workplaceSort;
 
 	// 更新人员
 	private String updateUser;
 
 	// 创建时间
-	private Date createTime;
+	private Date createDate;
 
 	// 更新时间
 	private Date updateTime;
@@ -78,7 +87,7 @@ public class Workattendance extends BaseEntity {
 		return "Workattendance [workattendanceId=" + workattendanceId + ", userId=" + userId + ", workattendanceType="
 				+ workattendanceType + ", workHour=" + workHour + ", workplaceId=" + workplaceId + ", workplaceName="
 				+ workplaceName + ", userName=" + userName + ", createUser=" + createUser + ", workplaceSort="
-				+ workplaceSort + ", updateUser=" + updateUser + ", createTime=" + createTime + ", updateTime="
+				 + ", updateUser=" + updateUser + ", createTime=" + createDate + ", updateTime="
 				+ updateTime + ", remark=" + remark + ", user=" + user + ", workplace=" + workplace + "]";
 	}
 
@@ -149,13 +158,7 @@ public class Workattendance extends BaseEntity {
 		this.createUser = createUser;
 	}
 
-	public String getWorkplaceSort() {
-		return workplaceSort;
-	}
-
-	public void setWorkplaceSort(String workplaceSort) {
-		this.workplaceSort = workplaceSort;
-	}
+	
 
 	public String getUpdateUser() {
 		return updateUser;
@@ -165,12 +168,12 @@ public class Workattendance extends BaseEntity {
 		this.updateUser = updateUser;
 	}
 
-	public Date getCreateTime() {
-		return createTime;
+	public Date getCreateDate() {
+		return createDate;
 	}
 
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 
 	public Date getUpdateTime() {

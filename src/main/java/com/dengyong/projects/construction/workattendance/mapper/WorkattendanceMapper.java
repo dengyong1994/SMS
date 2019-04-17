@@ -22,12 +22,12 @@ public interface WorkattendanceMapper
 
 
     /**
-     * 通过工地ID查询工地信息
+     * 通过考勤ID查询工地信息
      * 
-     * @param workplace 工地ID
-     * @return 角色对象信息
+     * @param workplace 考勤ID
+     * @return 考勤对象信息
      */
-    public Workplace selectWorkplaceById(Long workplace);
+    public Workattendance selectWorkattendanceById(Long workattendanceId);
 
     /**
      * 批量删除工地信息
@@ -51,7 +51,7 @@ public interface WorkattendanceMapper
      * @param workplace 工地信息
      * @return 结果
      */
-    public int insertWorkplace(Workplace workplace);
+    public int insertWorkattendance(List<Workattendance> workattendanceList);
 
     /**
      * 校验工地名称

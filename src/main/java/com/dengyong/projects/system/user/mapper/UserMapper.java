@@ -1,5 +1,6 @@
 package com.dengyong.projects.system.user.mapper;
 
+import com.dengyong.projects.system.post.domain.Post;
 import com.dengyong.projects.system.user.domain.User;
 import java.util.List;
 
@@ -25,7 +26,12 @@ public interface UserMapper
      * @return 用户对象信息
      */
     public User selectUserByLoginName(String userName);
-
+    /**
+     * 查询所有用户
+     * 
+     * @return 用户列表
+     */
+    public List<User> selectUserAll();
     /**
      * 通过手机号码查询用户
      * 
@@ -50,6 +56,14 @@ public interface UserMapper
      */
     public User selectUserById(Long userId);
 
+    
+    /**
+     * 通过用户ID查询用户
+     * 
+     * @param userId 用户ID
+     * @return 用户对象信息
+     */
+    public User selectUserNameById(Long userId);
     /**
      * 通过用户ID删除用户
      * 

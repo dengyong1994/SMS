@@ -458,4 +458,14 @@ public class UserServiceImpl implements IUserService
         }
         return userMapper.updateUser(user);
     }
+    /**
+     * 查询所有用户
+     * 
+     * @return 用户列表
+     */
+	@Override
+	public List<User> selectUserAll() {
+		List<User> list = userMapper.selectUserAll();
+		return userMapper.selectUserAll();
+	}
 }

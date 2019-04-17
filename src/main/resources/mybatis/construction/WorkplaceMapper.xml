@@ -23,7 +23,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select Workplace_id, Workplace_name, Workplace_place, Workplace_status, Workplace_flag, create_user, create_time, update_user ,update_time ,remark ,workplace_sort
 		from sms_workplace 
     </sql>
-	
+    
+    <sql id="selectWorkplaceNameVo">
+        select  Workplace_name
+		from sms_workplace 
+    </sql>
+	<select id="selectWorkplaceAll" resultMap="WorkplaceResult">
+		<include refid="selectWorkplaceVo"/>
+	</select>
 	<select id="selectWorkplaceList" parameterType="Workplace" resultMap="WorkplaceResult">
 	    <include refid="selectWorkplaceVo"/>
 	    where workplace_flag = '0'
@@ -54,7 +61,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where workplace_id = #{workplaceId}
 	</select>
 	
-	
+	<select id="selectWorkplaceNameById" parameterType="Long" resultMap="WorkplaceResult">
+		<include refid="selectWorkplaceNameVo"/>
+		where workplace_id = #{workplaceId}
+	</select>
  	
  	<delete id="deleteWorkplaceByIds" parameterType="Long">
  		update sms_workplace set workplace_flag = '2' where workplace_id in

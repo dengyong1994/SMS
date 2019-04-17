@@ -1,5 +1,6 @@
 package com.dengyong.projects.system.user.service;
 
+import com.dengyong.projects.system.post.domain.Post;
 import com.dengyong.projects.system.user.domain.User;
 import java.util.List;
 
@@ -122,7 +123,14 @@ public interface IUserService
      * @return 结果
      */
     public String checkEmailUnique(User user);
-
+    
+    /**
+    * 查询所有用户
+    * 
+    * @return 用列表
+    */
+   public List<User> selectUserAll();
+   
     /**
      * 根据用户ID查询用户所属角色组
      * 

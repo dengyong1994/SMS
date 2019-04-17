@@ -1,5 +1,6 @@
 package com.dengyong.projects.construction.workattendance.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,8 @@ import com.dengyong.projects.construction.workattendance.domain.Workattendance;
 import com.dengyong.projects.construction.workattendance.mapper.WorkattendanceMapper;
 import com.dengyong.projects.construction.workplace.domain.Workplace;
 import com.dengyong.projects.construction.workplace.mapper.WorkplaceMapper;
+import com.dengyong.projects.system.user.domain.UserRole;
+import com.dengyong.projects.system.user.mapper.UserMapper;
 import com.dengyong.projects.system.user.mapper.UserWorkplaceMapper;
 
 /**
@@ -27,6 +30,9 @@ public class WorkattendanceServiceImpl implements IWorkattendanceService
     
     @Autowired 
     private WorkplaceMapper workplaceMapper;
+    
+    @Autowired 
+    private UserMapper userMapper;
 
     @Autowired
     private UserWorkplaceMapper userWorkplaceMapper;
@@ -52,9 +58,9 @@ public class WorkattendanceServiceImpl implements IWorkattendanceService
      * @return 角色对象信息
      */
     @Override
-    public Workplace selectWorkplaceById(Long workplaceId)
+    public Workattendance selectWorkattendanceById(Long workattendance)
     {
-        return workplaceMapper.selectWorkplaceById(workplaceId);
+        return workattendanceMapper.selectWorkattendanceById(workattendance);
     }
 
     /**
@@ -66,16 +72,16 @@ public class WorkattendanceServiceImpl implements IWorkattendanceService
     @Override
     public int deleteWorkplaceByIds(String ids) throws BusinessException
     {
-        Long[] workplaceIds = Convert.toLongArray(ids);
-        for (Long workplaceId : workplaceIds)
+        Long[] workattendanceIds = Convert.toLongArray(ids);
+        for (Long workattendanceId : workattendanceIds)
         {
-        	Workplace workplace = selectWorkplaceById(workplaceId);
-            if (countUserWorkplaceById(workplaceId) > 0)
+        	Workattendance workattendance = selectWorkattendanceById(workattendanceId);
+            if (countUserWorkplaceById(workattendanceId) > 0)
             {
-                throw new BusinessException(String.format("%1$s正在被使用,不能删除", workplace.getWorkplaceName()));
+                throw new BusinessException(String.format("%1$s正在被使用,不能删除", workattendance.getWorkplaceName()));
             }
         }
-        return workplaceMapper.deleteWorkplaceByIds(workplaceIds);
+        return workplaceMapper.deleteWorkplaceByIds(workattendanceIds);
     }
 
     /**
@@ -85,10 +91,30 @@ public class WorkattendanceServiceImpl implements IWorkattendanceService
      * @return 结果
      */
     @Override
-    public int insertWorkplace(Workplace workplace)
+    public int insertWorkplace(Workattendance workattendance)
     {
-    	workplace.setCreateBy(ShiroUtils.getLoginName());
-        return workplaceMapper.insertWorkplace(workplace);
+    	
+    	
+    	 List<Workattendance> list = new ArrayList<Workattendance>();
+    	 
+    	for (Long userId :  workattendance.getUserIds())
+    	{
+    		Workattendance  wa = new Workattendance();
+    		wa.setCreateUser(ShiroUtils.getLoginName());
+    		wa.setUserId(userId);
+    		wa.setWorkHour(workattendance.getWorkHour());
+    		wa.setRemark(workattendance.getRemark());
+    		wa.setWorkplaceId(workattendance.getWorkplaceId());
+    		String workplaceName = workplaceMapper.selectWorkplaceNameById(workattendance.getWorkplaceId()).getWorkplaceName();
+    		wa.setWorkplaceName(workplaceMapper.selectWorkplaceNameById(workattendance.getWorkplaceId()).getWorkplaceName());
+    		String userName = userMapper.selectUserNameById(userId).getUserName();
+    		wa.setUserName(userMapper.selectUserNameById(userId).getUserName());
+    		wa.setWorkattendanceType(workattendance.getWorkattendanceType());
+    		list.add(wa);
+    	}
+   
+        return  workattendanceMapper.insertWorkattendance(list);
+    	
     }
 
     /**

@@ -213,13 +213,16 @@
         
         function submitHandler() {
 	        if ($.validate.form()) {
+	        	debugger
 	        	var data = $("#form-user-add").serializeArray();
 	        	var status = $("input[id='status']").is(':checked') == true ? 0 : 1;
+	        	debugger
 	        	var roleIds = $.form.selectCheckeds("role");
 	        	var postIds = $.form.selectSelects("post");
 	        	data.push({"name": "status", "value": status});
 	        	data.push({"name": "roleIds", "value": roleIds});
 	        	data.push({"name": "postIds", "value": postIds});
+	        	debugger
 	        	$.operate.saveTab(prefix + "/add", data);
 	        }
 	    }

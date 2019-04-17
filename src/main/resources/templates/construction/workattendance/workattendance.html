@@ -55,20 +55,22 @@
 		        createUrl: prefix + "/add",
 		        updateUrl: prefix + "/edit/{id}",
 		        removeUrl: prefix + "/remove",
-		        sortName: "workattendanceId",
+		        sortName: "createDate",
 		        modalName: "考勤",
 		        columns: [{
 		            checkbox: true
 		        },
 		        {
 		            field: 'workattendanceId',
-		            title: '考勤编号',
-		            sortable: true
+		            title: '考勤种类',
+		        },
+		        {
+		            field: 'workattendanceType',
+		            title: '考勤种类',
 		        },
 		        {
 		            field: 'user.userName',
 		            title: '用户名称',
-		            sortable: true
 		        },
 		        {
 		            field: 'workplace.workplaceName',
@@ -80,7 +82,11 @@
 		            align: 'center',
 		        },
 		        {
-		            field: 'createTime',
+		            field: 'createUser',
+		            title: '创建人员',
+		        },
+		        {
+		            field: 'createDate',
 		            title: '创建时间',
 		            sortable: true
 		        },
@@ -93,8 +99,8 @@
 		            align: 'center',
 		            formatter: function(value, row, index) {
 		                var actions = [];
-		                actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.workplaceId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-		                actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.workplaceId + '\')"><i class="fa fa-remove"></i>删除</a>');
+		                actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.workattendanceId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+		                actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.workattendanceId + '\')"><i class="fa fa-remove"></i>删除</a>');
 		                return actions.join('');
 		            }
 		        }]

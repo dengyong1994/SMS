@@ -11,10 +11,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="workattendanceType"  column="workattendance_type"  />
 		<result property="workHour"       column="work_hour"       />
 		<result property="workplaceId"      column="workplace_id"     />
-		<result property="workplaceId"      column="workplace_Name"     />
 		<result property="userName"      column="user_name"     />
 		<result property="createUser"     column="create_user"    />
-		<result property="createTime"   column="create_time"  />
+		<result property="createDate"   column="create_date"  />
 		<result property="updateUser"     column="update_user"    />
 		<result property="updateTime"   column="update_time"  />
 		<result property="remark"       column="remark"       />
@@ -33,16 +32,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 	
 	<sql id="selectWorkattendanceVo">
-        select  su.user_name,swp.workplace_name, swa.create_user,swa.workattendance_id, swa.remark ,swa.workattendance_type,swa.work_hour
+        select  su.user_name,swp.workplace_name, swa.create_user,swa.workattendance_id, swa.remark ,swa.workattendance_type,swa.work_hour,swa.create_date
 		from sms_workattendance swa
 		left join  sms_user su on swa.user_id = su.user_id
-		left join  sms_workplace swp on swp.workplace_id = swa.workplace_id AND swa.user_name like concat('%', #{userName}, '%') AND swa.workplace_name like concat('%', #{workplaceName}, '%')
+		left join  sms_workplace swp on swp.workplace_id = swa.workplace_id 
 			
     </sql>
 	
+	<insert id="insertWorkattendance">
+		insert into sms_workattendance(user_id, workattendance_type,work_hour,create_user,remark,workplace_id,workplace_name,user_name,create_date) values
+		<foreach item="item" index="index" collection="list" separator=",">
+			(#{item.userId},#{item.workattendanceType},#{item.workHour},#{item.createUser},#{item.remark},#{item.workplaceId},#{item.workplaceName},#{item.userName},sysdate())
+		</foreach>
+	</insert>
+	
 	<select id="selectWorkattendanceList" parameterType="Workattendance" resultMap="WorkattendanceResult">
 	    <include refid="selectWorkattendanceVo"/>
-		
+		<where>
+			<if test="userName != null and userName != ''">
+				AND swa.user_name like concat('%', #{userName}, '%') 
+			</if>
+			<if test="workplaceName != null and workplaceName != ''">
+				AND swa.workplace_name like concat('%', #{workplaceName}, '%')
+			</if>
+		</where>
 	</select>
 	
 	<select id="checkWorkplaceNameUnique" parameterType="String" resultMap="WorkplaceResult">
@@ -51,9 +64,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	
-	<select id="selectWorkplaceById" parameterType="Long" resultMap="WorkplaceResult">
+	<select id="selectWorkattendanceById" parameterType="Long" resultMap="WorkattendanceResult">
 		<include refid="selectWorkattendanceVo"/>
-		where workplace_id = #{workplaceId}
+		where workattendance_id = #{workattendanceId}
 	</select>
 	
 	

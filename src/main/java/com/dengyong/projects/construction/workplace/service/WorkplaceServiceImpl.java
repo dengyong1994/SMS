@@ -130,4 +130,13 @@ public class WorkplaceServiceImpl implements IWorkplaceService
         return UserConstants.POST_NAME_UNIQUE;
     }
 
+    /**
+     * 查询所有工地
+     */
+	@Override
+	public List<Workplace> selectWorkplaceAll() {
+
+		return workplaceMapper.selectWorkplaceAll();
+	}
+
 }

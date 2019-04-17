@@ -3,6 +3,7 @@ package com.dengyong.projects.construction.workplace.service;
 import java.util.List;
 
 import com.dengyong.projects.construction.workplace.domain.Workplace;
+import com.dengyong.projects.system.post.domain.Post;
 
 
 /**
@@ -28,7 +29,12 @@ public interface IWorkplaceService
      * @return 角色对象信息
      */
     public Workplace selectWorkplaceById(Long workplaceId);
-
+    /**
+    * 查询所有工地
+    * 
+    * @return 工地列表
+    */
+   public List<Workplace> selectWorkplaceAll();
     /**
      * 批量删除工地信息
      * 

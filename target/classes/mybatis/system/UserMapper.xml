@@ -50,9 +50,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
        		    d.dept_id, d.parent_id, d.dept_name, d.order_num, d.status as dept_status,
        		    r.role_id, r.role_name, r.role_key, r.role_sort, r.data_scope, r.status as role_status
 		from sms_user u
-			 left join sms_dept d on u.dept_id = d.dept_id
+			left join sms_dept d on u.dept_id = d.dept_id
 			 left join sms_user_role ur on u.user_id = ur.user_id
 			 left join sms_role r on r.role_id = ur.role_id
+    </sql>
+    <sql id="selectUserNameVo">
+        select   u.user_name    
+		from sms_user u
+			 
     </sql>
 	
 	<select id="selectUserList" parameterType="User" resultMap="UserResult">
@@ -91,6 +96,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where u.phone_number = #{phonenumber}
 	</select>
 	
+	<select id="selectUserAll" resultMap="UserResult">
+		<include refid="selectUserVo"/>
+	</select>
+	
 	<select id="selectUserByEmail" parameterType="String" resultMap="UserResult">
 	    <include refid="selectUserVo"/>
 		where u.email = #{email}
@@ -110,6 +119,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="selectUserById" parameterType="Long" resultMap="UserResult">
 		<include refid="selectUserVo"/>
+		where u.user_id = #{userId}
+	</select>
+	
+	<select id="selectUserNameById" parameterType="Long" resultMap="UserResult">
+		<include refid="selectUserNameVo"/>
 		where u.user_id = #{userId}
 	</select>
 	
