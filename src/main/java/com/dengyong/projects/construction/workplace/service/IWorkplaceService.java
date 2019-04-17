@@ -3,7 +3,6 @@ package com.dengyong.projects.construction.workplace.service;
 import java.util.List;
 
 import com.dengyong.projects.construction.workplace.domain.Workplace;
-import com.dengyong.projects.system.post.domain.Post;
 
 
 /**

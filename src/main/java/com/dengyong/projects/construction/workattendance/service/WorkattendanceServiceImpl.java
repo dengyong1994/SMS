@@ -13,7 +13,6 @@ import com.dengyong.projects.construction.workattendance.domain.Workattendance;
 import com.dengyong.projects.construction.workattendance.mapper.WorkattendanceMapper;
 import com.dengyong.projects.construction.workplace.domain.Workplace;
 import com.dengyong.projects.construction.workplace.mapper.WorkplaceMapper;
-import com.dengyong.projects.system.user.domain.UserRole;
 import com.dengyong.projects.system.user.mapper.UserMapper;
 import com.dengyong.projects.system.user.mapper.UserWorkplaceMapper;
 
@@ -105,9 +104,7 @@ public class WorkattendanceServiceImpl implements IWorkattendanceService
     		wa.setWorkHour(workattendance.getWorkHour());
     		wa.setRemark(workattendance.getRemark());
     		wa.setWorkplaceId(workattendance.getWorkplaceId());
-    		String workplaceName = workplaceMapper.selectWorkplaceNameById(workattendance.getWorkplaceId()).getWorkplaceName();
     		wa.setWorkplaceName(workplaceMapper.selectWorkplaceNameById(workattendance.getWorkplaceId()).getWorkplaceName());
-    		String userName = userMapper.selectUserNameById(userId).getUserName();
     		wa.setUserName(userMapper.selectUserNameById(userId).getUserName());
     		wa.setWorkattendanceType(workattendance.getWorkattendanceType());
     		list.add(wa);

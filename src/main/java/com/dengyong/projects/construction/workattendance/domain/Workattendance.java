@@ -3,7 +3,6 @@ package com.dengyong.projects.construction.workattendance.domain;
 import java.util.Date;
 import com.dengyong.framework.web.domain.BaseEntity;
 import com.dengyong.projects.construction.workplace.domain.Workplace;
-import com.dengyong.projects.system.dept.domain.Dept;
 import com.dengyong.projects.system.user.domain.User;
 
 /**
