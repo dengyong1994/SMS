@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="attendancestatistics-form">
+					<div class="select-list">
+						<ul>
+							<li>工地名称： <select id="workplaceId" name="workplaceId">
+									<option value="">所有</option>
+									<option th:each="workplace:${workplaces}"
+										th:value="${workplace.workplaceId}"
+										th:text="${workplace.workplaceName}"></option>
+							</select>
+							</li>
+							<li>用户名称： <select id="userId" name="userId">
+									<option value="">所有</option>
+									<option th:each="user:${users}" th:value="${user.userId}"
+										th:text="${user.userName}"></option>
+							</select>
+							</li>
+							<li>考勤种类： <select id="workattendanceType"
+								name="workattendanceType">
+									<option value="">所有</option>
+									<option value="包工">包工</option>
+									<option value="点工">点工</option>
+							</select>
+							</li>
+							<li class="select-time"><label>创建时间： </label> <input
+								type="text" class="time-input" id="startTime" placeholder="开始时间"
+								name="params[beginTime]" /> <span>-</span> <input type="text"
+								class="time-input" id="endTime" placeholder="结束时间"
+								name="params[endTime]" /></li>
+							<li><a class="btn btn-primary btn-rounded btn-sm"
+								onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm"
+								onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+
+			<div class="btn-group-sm" id="toolbar" role="group">
+	            <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="construction:attendancestatistics:export">
+		            <i class="fa fa-download"></i> 导出
+		        </a>
+	        </div>
+
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script th:src="@{/ajax/libs/select/select2.js}"></script>
+	<script th:inline="javascript">
+		var prefix = ctx + "construction/attendancestatistics";
+
+		$(function() {
+			var options = {
+				url : prefix + "/list",
+				exportUrl : prefix + "/export",
+				sortName : "createDate",
+				showFooter : true,
+				modalName : "考勤",
+				columns : [ {
+					checkbox : true
+				}, {
+					field : 'workattendanceId',
+					title : '考勤编号',
+					sortable : true
+				}, {
+					field : 'workattendanceType',
+					title : '考勤种类',
+				}, {
+					field : 'user.userName',
+					title : '用户名称',
+				}, {
+					field : 'workplaceName',
+					title : '工地名称',
+				},
+
+				{
+					field : 'createUser',
+					title : '创建人员',
+					footerFormatter : function(rows) {
+						return "工时总计";
+					}
+				}, {
+					field : 'workHour',
+					title : '工时',
+					align : 'center',
+					footerFormatter : function(rows) {
+						var sum = 0;
+						for (var i = 0; i < rows.length; i++) {
+							sum += rows[i].workHour
+						}
+						return sum.toFixed(1);
+					}
+				} ]
+			};
+			$.table.init(options);
+		});
+	</script>
+</body>
+</html>

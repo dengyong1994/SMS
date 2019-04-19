@@ -25,6 +25,7 @@ import com.dengyong.projects.system.user.domain.UserRole;
 import com.dengyong.projects.system.user.mapper.UserMapper;
 import com.dengyong.projects.system.user.mapper.UserPostMapper;
 import com.dengyong.projects.system.user.mapper.UserRoleMapper;
+import com.dengyong.projects.system.user.mapper.UserWorkplaceMapper;
 
 /**
  * 用户 业务层处理
@@ -48,6 +49,9 @@ public class UserServiceImpl implements IUserService
     @Autowired
     private UserPostMapper userPostMapper;
 
+    @Autowired
+    private UserWorkplaceMapper userWorkplaceMapper;
+    
     @Autowired
     private UserRoleMapper userRoleMapper;
 
@@ -133,6 +137,8 @@ public class UserServiceImpl implements IUserService
         userRoleMapper.deleteUserRoleByUserId(userId);
         // 删除用户与岗位表
         userPostMapper.deleteUserPostByUserId(userId);
+        // 删除用户与工地表
+        userWorkplaceMapper.deleteUserWorkplaceByUserId(userId);
         return userMapper.deleteUserById(userId);
     }
 

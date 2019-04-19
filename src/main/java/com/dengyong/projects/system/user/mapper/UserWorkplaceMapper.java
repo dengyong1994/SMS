@@ -12,15 +12,15 @@ import com.dengyong.projects.system.user.domain.UserWorkplace;
 public interface UserWorkplaceMapper
 {
     /**
-     * 通过用户ID删除用户和岗位关联
+     * 通过用户ID删除用户和工地关联
      * 
      * @param userId 用户ID
      * @return 结果
      */
-    public int deleteUserPostByUserId(Long userId);
+    public int deleteUserWorkplaceByUserId(Long userId);
     
     /**
-     * 通过工地ID查询岗位使用数量
+     * 通过工地ID查询工地使用数量
      * 
      * @param workplaceId 工地ID
      * @return 结果
@@ -28,12 +28,12 @@ public interface UserWorkplaceMapper
     public int countUserWorkplaceById(Long workplaceId);
     
     /**
-     * 批量删除用户和岗位关联
+     * 批量删除用户和工地关联
      * 
      * @param ids 需要删除的数据ID
      * @return 结果
      */
-    public int deleteUserPost(Long[] ids);
+    public int deleteUserWorkplace(List<Long> ids);
 
     /**
      * 批量新增用户工地信息

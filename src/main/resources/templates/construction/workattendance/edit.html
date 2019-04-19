@@ -9,9 +9,7 @@
 			<div class="form-group">
                    <label class="col-sm-3 control-label">用户：</label>
                    <div class="col-sm-8">
-                        <select id="user" th:field="*{userName}" class="form-control select2-hidden-accessible" multiple="">
-							<option th:each="user:${users}" th:value="${user.userId}" th:text="${user.userName}" th:disabled="${user.status == '1'}"></option>
-						</select>
+                        <input class="form-control" th:field="*{userName}" type="text"  readonly>
                    </div>
              </div>
              <div class="form-group">
@@ -50,44 +48,14 @@
 	<div th:include="include::footer"></div>
 	<script th:src="@{/ajax/libs/select/select2.js}"></script>
 	<script type="text/javascript">
-		var prefix = ctx + "construction/workplace";
-		
-		$("#form-workplace-edit").validate({
-			onkeyup: false,
-			rules:{
-				workplaceName:{
-					remote: {
-		                url: ctx + "construction/workplace/checkWorkplaceNameUnique",
-		                type: "post",
-		                dataType: "json",
-		                data: {
-		                	"workplaceId": function() {
-							    return $("input[name='workplaceId']").val();
-							},
-		            		"workplaceName" : function() {
-		                        return $.common.trim($("#workplaceName").val());
-		                    }
-		                },
-		                dataFilter: function(data, type) {
-		                	return $.validate.unique(data);
-		                }
-		            }
-				},
-				postSort:{
-					digits:true
-				},
-			},
-			messages: {
-		        "workplaceName": {
-		            remote: "工地名称已经存在"
-		        }
-		    },
-		    focusCleanup: true
-		});
-		
+		var prefix = ctx + "construction/workattendance";
 		function submitHandler() {
 	        if ($.validate.form()) {
-	        	$.operate.save(prefix + "/edit", $('#form-workplace-edit').serialize());
+	        	var data = $("#form-workattendance-edit").serializeArray();
+	        	var workplaceId = $.form.selectSelects("workplace");
+	        	data.push({"name": "workplaceId", "value": workplaceId});
+	        	$.operate.save(prefix + "/edit", data);
+	        	
 	        }
 	    }
 	</script>

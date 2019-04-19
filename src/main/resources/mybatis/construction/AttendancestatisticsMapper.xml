@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dengyong.projects.construction.attendancestatistics.mapper.AttendancestatisticsMapper">
+					
+
+	<resultMap type="Workattendance" id="WorkattendanceResult">
+		<id     property="workattendanceId"       column="workattendance_id"      />
+		<result property="userId"    column="user_id"   />
+		<result property="workattendanceType"  column="workattendance_type"  />
+		<result property="workHour"       column="work_hour"       />
+		<result property="workplaceId"      column="workplace_id"     />
+		<result property="userName"      column="user_name"     />           
+		<result property="createUser"     column="create_user"    />
+		<result property="workplaceName" column="workplace_name"   />
+		<result property="createDate"   column="create_date"  />
+		<result property="updateUser"     column="update_user"    />
+		<result property="updateTime"   column="update_time"  />
+		<result property="remark"       column="remark"       />
+		<association property="user"    column="user_id" javaType="User" resultMap="userResult" />
+		
+	</resultMap>
+	
+	<resultMap id="userResult" type="User">
+		<id     property="userId"   column="user_id"     />
+		<result property="userName" column="user_name"   />
+	</resultMap>
+	
+	
+	
+	<sql id="selectWorkattendanceVo">
+        select  swa.user_id,su.user_name,swa.workplace_name, swa.create_user,swa.workattendance_id, swa.remark ,swa.workattendance_type,swa.work_hour,swa.create_date
+		from sms_workattendance swa
+		left join  sms_user su on swa.user_id = su.user_id
+		left join  sms_workplace swp on swp.workplace_id = swa.workplace_id 
+			
+    </sql>
+	
+	
+	
+	<select id="selectWorkattendanceList" parameterType="Workattendance" resultMap="WorkattendanceResult">
+	    <include refid="selectWorkattendanceVo"/>
+		<where>
+		<if test="workplaceId != null and workplaceId != ''">
+		 swa.workplace_id = #{workplaceId}
+		</if>
+		<if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+			and date_format(swa.create_date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+		</if>
+		<if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+			AND date_format(swa.create_date,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+		</if>
+		
+		<if test="userId != null and userId != ''">
+			AND swa.user_id = #{userId}
+		</if>
+		<if test="workattendanceType != null and workattendanceType != ''">
+			AND swa.workattendance_type = #{workattendanceType}
+		</if>
+		</where>
+		order by create_date asc
+	</select>
+	
+	
+	
+	
+	<select id="selectWorkattendanceById" parameterType="Long" resultMap="WorkattendanceResult">
+		<include refid="selectWorkattendanceVo"/>
+		where workattendance_id = #{workattendanceId}
+	</select>
+	
+</mapper> 

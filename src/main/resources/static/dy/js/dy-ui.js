@@ -55,7 +55,7 @@
                     pagination: options.pagination,                     // 是否显示分页（*）
                     pageNumber: 1,                                      // 初始化加载第一页，默认第一页
                     pageSize: options.pageSize,                         // 每页的记录行数（*） 
-                    pageList: [10, 25, 50],                             // 可供选择的每页的行数（*）
+                    pageList: [10, 25, 50,100,1000,10000],                             // 可供选择的每页的行数（*）
                     escape: options.escape,                             // 转义HTML字符串
                     showFooter: options.showFooter,                     // 是否显示表尾
                     iconSize: 'outline',                                // 图标大小：undefined默认的按钮尺寸 xs超小按钮sm小按钮lg大按钮

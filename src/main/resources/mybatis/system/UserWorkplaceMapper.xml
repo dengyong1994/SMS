@@ -10,24 +10,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 
 	<delete id="deleteUserPostByUserId" parameterType="Long">
-		delete from sms_user_post where user_id=#{userId}
+		delete from sms_user_workplace where user_id=#{userId}
 	</delete>
 	
 	<select id="countUserWorkplaceById" resultType="Integer">
-	    select count(1) from sms_user_workplace where workplace_id=#{workplaceId}  
+	    select count(*) from sms_user_workplace where workplace_id=#{workplaceId}  
 	</select>
 	
-	<delete id="deleteUserPost" parameterType="Long">
- 		delete from sms_user_post where user_id in
- 		<foreach collection="array" item="userId" open="(" separator="," close=")">
+	<delete id="deleteUserWorkplace" parameterType="Long">
+ 		delete from sms_user_workplace where date(create_time)=date(sysdate()) and user_id in
+ 		<foreach collection="list" item="userId" open="(" separator="," close=")">
  			#{userId}
         </foreach> 
  	</delete>
 	
-	<insert id="batchUserPost">
-		insert into sms_user_post(user_id, post_id) values
+	<insert id="batchUserWorkplace">
+		insert into sms_user_workplace(user_id, workplace_id,create_time) values
 		<foreach item="item" index="index" collection="list" separator=",">
-			(#{item.userId},#{item.postId})
+			(#{item.userId},#{item.workplaceId},sysdate())
 		</foreach>
 	</insert>
 	

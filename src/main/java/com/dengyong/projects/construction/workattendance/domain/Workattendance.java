@@ -1,9 +1,12 @@
 package com.dengyong.projects.construction.workattendance.domain;
 
 import java.util.Date;
+
+import com.dengyong.framework.aspectj.lang.annotation.Excel;
 import com.dengyong.framework.web.domain.BaseEntity;
 import com.dengyong.projects.construction.workplace.domain.Workplace;
 import com.dengyong.projects.system.user.domain.User;
+
 
 /**
  * 考勤表 sms_Workattendance
@@ -14,15 +17,19 @@ public class Workattendance extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
 	/** 考勤序号 */
+	@Excel(name = "考勤序号")
 	private Long workattendanceId;
 
 	/** 用户编码 */
+	
 	private Long userId;
 
 	/** 考勤种类 */
+	@Excel(name = "考勤种类")
 	private String workattendanceType;
 
 	/** 工时 */
+	@Excel(name = "工时")
 	private Double workHour;
 	
 	/** 用户组 */
@@ -39,8 +46,10 @@ public class Workattendance extends BaseEntity {
 	/** 工地id */
 	private Long workplaceId;
 	// 工地名称
+	@Excel(name = "工地名称")
 	private String workplaceName;
 	// 用户姓名
+	@Excel(name = "工作人员")
 	private String userName;
 
 	public String getWorkplaceName() {
@@ -67,6 +76,7 @@ public class Workattendance extends BaseEntity {
 	private String updateUser;
 
 	// 创建时间
+	@Excel(name = "工作时间",dateFormat = "yyyy-MM-dd")
 	private Date createDate;
 
 	// 更新时间

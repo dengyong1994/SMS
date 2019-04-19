@@ -56,13 +56,15 @@
 		        updateUrl: prefix + "/edit/{id}",
 		        removeUrl: prefix + "/remove",
 		        sortName: "createDate",
+		        showFooter:true ,
 		        modalName: "考勤",
 		        columns: [{
 		            checkbox: true
 		        },
 		        {
 		            field: 'workattendanceId',
-		            title: '考勤种类',
+		            title: '考勤编号',
+		            sortable: true
 		        },
 		        {
 		            field: 'workattendanceType',
@@ -80,6 +82,13 @@
 		            field: 'workHour',
 		            title: '工时',
 		            align: 'center',
+		            footerFormatter: function(rows){
+		                var sum = 0;
+		                for (var i=0;i<rows.length;i++) {
+		                  sum += rows[i].workHour
+		                }
+		                return sum;
+		              }
 		        },
 		        {
 		            field: 'createUser',

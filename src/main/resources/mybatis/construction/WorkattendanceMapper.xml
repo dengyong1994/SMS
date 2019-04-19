@@ -32,7 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 	
 	<sql id="selectWorkattendanceVo">
-        select  su.user_name,swp.workplace_name, swa.create_user,swa.workattendance_id, swa.remark ,swa.workattendance_type,swa.work_hour,swa.create_date
+        select  swa.user_id,su.user_name,swp.workplace_name, swa.create_user,swa.workattendance_id, swa.remark ,swa.workattendance_type,swa.work_hour,swa.create_date
 		from sms_workattendance swa
 		left join  sms_user su on swa.user_id = su.user_id
 		left join  sms_workplace swp on swp.workplace_id = swa.workplace_id 
@@ -55,6 +55,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="workplaceName != null and workplaceName != ''">
 				AND swa.workplace_name like concat('%', #{workplaceName}, '%')
 			</if>
+			and date(swa.create_date) = date(sysdate())
 		</where>
 	</select>
 	
@@ -71,25 +72,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
  	
- 	<delete id="deleteWorkplaceByIds" parameterType="Long">
- 		update sms_workplace set workplace_flag = '2' where workplace_id in
- 		<foreach collection="array" item="workplaceId" open="(" separator="," close=")">
- 			#{workplaceId}
+ 	<delete id="deleteWorkattendanceByIds" parameterType="Long">
+ 		delete  from sms_workattendance  where workattendance_id in
+ 		<foreach collection="array" item="workattendanceId" open="(" separator="," close=")">
+ 			#{workattendanceId}
         </foreach> 
  	</delete>
  	
- 	<update id="updateWorkplace" parameterType="Workplace">
- 		update sms_workplace
+ 	<update id="updateWorkattendance" parameterType="Workattendance">
+ 		update sms_workattendance
  		<set>
  			<if test="workplaceName != null and workplaceName != ''">workplace_name = #{workplaceName},</if>
- 			<if test="workplacePlace != null and workplacePlace != ''">workplace_place = #{workplacePlace},</if>
- 			<if test="workplaceSort != null and workplaceSort != ''">workplace_sort = #{workplaceSort},</if>
- 			<if test="workplaceStatus != null and workplaceStatus != ''">workplace_status = #{workplaceStatus},</if>
- 			<if test="updateBy != null and updateBy != ''">update_user = #{updateBy},</if>
+ 			<if test="workHour != null and workHour != ''">work_hour = #{workHour},</if>
+ 			<if test="workplaceId != null and workplaceId != ''">workplace_id = #{workplaceId},</if>
+ 			<if test="workattendanceId != null and workattendanceId != ''">workattendance_id = #{workattendanceId},</if>
+ 			<if test="workattendanceType != null and workattendanceType != ''">workattendance_type = #{workattendanceType},</if>
+ 			<if test="updateUser != null and updateUser != ''">update_user = #{updateUser},</if>
  			<if test="remark != null and remark != ''">remark = #{remark},</if>
  			update_time = sysdate()
  		</set>
- 		where workplace_id = #{workplaceId}
+ 		where workattendance_id = #{workattendanceId}
 	</update>
  	
  	<insert id="insertWorkplace" parameterType="Workplace" useGeneratedKeys="true" keyProperty="workplaceId">

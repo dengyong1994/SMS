@@ -13,7 +13,7 @@ import com.dengyong.framework.web.domain.BaseEntity;
  */
 public class OperLog extends BaseEntity
 {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
     /** 日志主键 */
     @Excel(name = "操作序号")

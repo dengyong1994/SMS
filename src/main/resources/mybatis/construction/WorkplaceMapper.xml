@@ -28,12 +28,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select  Workplace_name
 		from sms_workplace 
     </sql>
-	<select id="selectWorkplaceAll" resultMap="WorkplaceResult">
-		<include refid="selectWorkplaceVo"/>
-	</select>
+	
 	<select id="selectWorkplaceList" parameterType="Workplace" resultMap="WorkplaceResult">
 	    <include refid="selectWorkplaceVo"/>
-	    where workplace_flag = '0'
 		<where>
 			<if test="workplaceId != null and workplaceId != ''">
 				AND workplace_id like concat('%', #{workplaceId}, '%')
@@ -47,12 +44,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="workplaceName != null and workplaceName != ''">
 				AND workplace_name like concat('%', #{workplaceName}, '%')
 			</if>
+			and workplace_flag = '0'
 		</where>
 	</select>
 	
+	
+	<select id="selectWorkplaceAll" resultMap="WorkplaceResult">
+		<include refid="selectWorkplaceVo"/>
+		where Workplace_status = '0' and workplace_flag = '0' 
+	</select>
+	
+	
+	
 	<select id="checkWorkplaceNameUnique" parameterType="String" resultMap="WorkplaceResult">
 		<include refid="selectWorkplaceVo"/>
-		 where workplace_name=#{workplaceName}
+		 workplace_name=#{workplaceName}
 	</select>
 	
 	
