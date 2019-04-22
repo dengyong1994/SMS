@@ -1,4 +1,4 @@
-package com.dengyong.project.common;
+package com.dengyong.projects.common;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -54,7 +54,7 @@ public class CommonController
             }
             String realFileName = System.currentTimeMillis() + fileName.substring(fileName.indexOf("_") + 1);
             String filePath = SMSConfig.getDownloadPath() + fileName;
-
+           
             response.setCharacterEncoding("utf-8");
             response.setContentType("multipart/form-data");
             response.setHeader("Content-Disposition",

@@ -31,4 +31,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</foreach>
 	</insert>
 	
+	<select id="countUserWorkplaceByUserIdWorkplaceId" resultType="Integer">
+		select count(*) from sms_user_workplace where workplace_id=#{workplaceId}  and user_id = #{userId} and date(create_time) = date(sysdate());
+	</select>
+	
 </mapper> 

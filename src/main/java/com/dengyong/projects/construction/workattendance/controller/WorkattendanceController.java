@@ -87,7 +87,16 @@ public class WorkattendanceController extends BaseController {
 	@PostMapping("/add")
 	@ResponseBody
 	public AjaxResult addSave(Workattendance workattendance) {
-		return toAjax(workattendanceService.insertWorkattendance(workattendance));
+		
+		try
+        {
+			return toAjax(workattendanceService.insertWorkattendance(workattendance));
+        }
+        catch (Exception e)
+        {
+            return error(e.getMessage());
+        }
+		
 	}
 
 	/**

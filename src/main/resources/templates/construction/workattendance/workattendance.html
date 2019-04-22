@@ -82,13 +82,6 @@
 		            field: 'workHour',
 		            title: '工时',
 		            align: 'center',
-		            footerFormatter: function(rows){
-		                var sum = 0;
-		                for (var i=0;i<rows.length;i++) {
-		                  sum += rows[i].workHour
-		                }
-		                return sum;
-		              }
 		        },
 		        {
 		            field: 'createUser',

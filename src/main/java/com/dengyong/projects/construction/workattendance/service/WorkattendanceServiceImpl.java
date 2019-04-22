@@ -90,9 +90,12 @@ public class WorkattendanceServiceImpl implements IWorkattendanceService {
 	public int insertWorkattendance(Workattendance workattendance) {
 
 		List<Workattendance> list = new ArrayList<Workattendance>();
-
+		ArrayList<String> userName = new ArrayList<String>();
 		for (Long userId : workattendance.getUserIds()) {
 			Workattendance wa = new Workattendance();
+			UserWorkplace uw = new UserWorkplace();
+			uw.setUserId(userId);
+			uw.setworkplaceId(workattendance.getWorkplaceId());
 			wa.setCreateUser(ShiroUtils.getLoginName());
 			wa.setUserId(userId);
 			wa.setWorkHour(workattendance.getWorkHour());
@@ -103,12 +106,33 @@ public class WorkattendanceServiceImpl implements IWorkattendanceService {
 			wa.setUserName(userMapper.selectUserNameById(userId).getUserName());
 			wa.setWorkattendanceType(workattendance.getWorkattendanceType());
 			list.add(wa);
+			if (countUserWorkplaceByUserIdWorkplaceId(uw) > 0)
+	        {
+	            userName.add(userMapper.selectUserNameById(userId).getUserName());
+	        }
 		}
+		if (userName.size() > 0)
+        {
+            throw new BusinessException(String.format("%1$s今日考勤已经记录，无法再新增", userName.toString()));
+        }
+		
+		
 		insertUserWorkplace(workattendance);
 		return workattendanceMapper.insertWorkattendance(list);
 
 	}
-
+	
+	
+	/**
+	 * 
+	 */
+	public int countUserWorkplaceByUserIdWorkplaceId(UserWorkplace uw) {
+		return userWorkplaceMapper.countUserWorkplaceByUserIdWorkplaceId(uw);
+	}
+	/**
+	 * 新增用户与工地联系
+	 * @param workattendance
+	 */
 	public void insertUserWorkplace(Workattendance workattendance) {
 		Long workplaceId = workattendance.getWorkplaceId();
 		if (StringUtils.isNotNull(workplaceId)) {

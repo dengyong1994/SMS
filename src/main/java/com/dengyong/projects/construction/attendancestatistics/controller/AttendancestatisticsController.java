@@ -59,7 +59,6 @@ public class AttendancestatisticsController extends BaseController {
 		return getDataTable(list);
 	}
 	
-	@Log(title = "操作日志", businessType = BusinessType.EXPORT)
     @RequiresPermissions("construction:attendancestatistics:export")
     @PostMapping("/export")
     @ResponseBody
@@ -67,6 +66,6 @@ public class AttendancestatisticsController extends BaseController {
     {
 		List<Workattendance> list = attendancestatisticsService.selectWorkattendanceList(workattendance);
         ExcelUtil<Workattendance> util = new ExcelUtil<Workattendance>(Workattendance.class);
-        return util.exportExcel(list, "操作日志");
+        return util.exportExcel(list, "考勤统计");
     }
 }

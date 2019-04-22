@@ -28,10 +28,10 @@ public class FileUtils
         try
         {
             File file = new File(filePath);
-            if (!file.exists())
-            {
-                throw new FileNotFoundException(filePath);
-            }
+			 if (!file.exists()) { 
+				 throw new FileNotFoundException(filePath); 
+				 }
+			 
             fis = new FileInputStream(file);
             byte[] b = new byte[1024];
             int length;

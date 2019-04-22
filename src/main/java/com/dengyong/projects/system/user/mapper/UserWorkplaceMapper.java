@@ -26,6 +26,12 @@ public interface UserWorkplaceMapper
      * @return 结果
      */
     public int countUserWorkplaceById(Long workplaceId);
+    /**
+     * 通过userid和workplaceid查询是否存在当日考勤记录
+     * @param userWorkplace
+     * @return
+     */
+    public int countUserWorkplaceByUserIdWorkplaceId(UserWorkplace userWorkplace);
     
     /**
      * 批量删除用户和工地关联

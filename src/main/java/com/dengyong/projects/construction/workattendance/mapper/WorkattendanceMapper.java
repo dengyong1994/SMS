@@ -33,6 +33,8 @@ public interface WorkattendanceMapper {
 	 * @return 结果
 	 */
 	public int deleteWorkattendanceByIds(Long[] ids);
+	
+	
 
 	/**
 	 * 修改考勤信息
