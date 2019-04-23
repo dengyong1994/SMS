@@ -30,6 +30,8 @@ import com.dengyong.framework.shiro.web.filter.captcha.CaptchaValidateFilter;
 import com.dengyong.framework.shiro.web.filter.online.OnlineSessionFilter;
 import com.dengyong.framework.shiro.web.filter.sync.SyncOnlineSessionFilter;
 import com.dengyong.framework.shiro.web.session.OnlineWebSessionManager;
+import com.dengyong.framework.shiro.web.session.SpringSessionValidationScheduler;
+
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 
 /**
@@ -161,7 +163,7 @@ public class ShiroConfig
 
    /* *//**
      * 自定义sessionFactory调度器
-     *//*
+     */
     @Bean
     public SpringSessionValidationScheduler sessionValidationScheduler()
     {
@@ -171,7 +173,7 @@ public class ShiroConfig
         // 设置会话验证调度器进行会话验证时的会话管理器
         sessionValidationScheduler.setSessionManager(sessionValidationManager());
         return sessionValidationScheduler;
-    }*/
+    }
 
     /**
      * 会话管理器

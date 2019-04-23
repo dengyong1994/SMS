@@ -12,12 +12,15 @@ import com.dengyong.common.utils.AddressUtils;
 import com.dengyong.common.utils.LogUtils;*/
 import com.dengyong.common.utils.ServletUtils;
 import com.dengyong.common.utils.security.ShiroUtils;
+import com.dengyong.common.utils.spring.SpringUtils;
 import com.dengyong.projects.monitor.logininfor.domain.Logininfor;
+import com.dengyong.projects.monitor.logininfor.service.LogininforServiceImpl;
 /*import com.dengyong.projects.monitor.logininfor.domain.Logininfor;
 import com.dengyong.projects.monitor.logininfor.service.LogininforServiceImpl;*/
 import com.dengyong.projects.monitor.online.domain.OnlineSession;
 import com.dengyong.projects.monitor.online.domain.UserOnline;
-
+import com.dengyong.projects.monitor.operlog.domain.OperLog;
+import com.dengyong.projects.monitor.operlog.service.IOperLogService;
 
 /*import com.dengyong.projects.monitor.online.service.IUserOnlineService;
 import com.dengyong.projects.monitor.operlog.domain.OperLog;
@@ -72,7 +75,7 @@ public class AsyncFactory
      * @param operLog 操作日志信息
      * @return 任务task
      */
-    /*public static TimerTask recordOper(final OperLog operLog)
+    public static TimerTask recordOper(final OperLog operLog)
     {
         return new TimerTask()
         {
@@ -84,7 +87,7 @@ public class AsyncFactory
                 SpringUtils.getBean(IOperLogService.class).insertOperlog(operLog);
             }
         };
-    }*/
+    }
 
     /**
      * 记录登陆信息
@@ -134,7 +137,7 @@ public class AsyncFactory
                     logininfor.setStatus(Constants.FAIL);
                 }
                 // 插入数据
-               // SpringUtils.getBean(LogininforServiceImpl.class).insertLogininfor(logininfor);
+                SpringUtils.getBean(LogininforServiceImpl.class).insertLogininfor(logininfor);
             }
         };
     }

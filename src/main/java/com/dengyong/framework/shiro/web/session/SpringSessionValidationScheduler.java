@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-//import com.ruoyi.common.utils.Threads;
+import com.dengyong.common.utils.Threads;
 
 /**
  * 自定义任务调度器完成
@@ -26,8 +26,8 @@ public class SpringSessionValidationScheduler implements SessionValidationSchedu
      * 定时器，用于处理超时的挂起请求，也用于连接断开时的重连。
      */
     @Autowired
-    /*@Qualifier("scheduledExecutorService")
-    private ScheduledExecutorService executorService;*/
+    @Qualifier("scheduledExecutorService")
+    private ScheduledExecutorService executorService;
 
     private volatile boolean enabled = false;
 
@@ -101,8 +101,8 @@ public class SpringSessionValidationScheduler implements SessionValidationSchedu
 
         try
         {
-          //  executorService.scheduleAtFixedRate(new Runnable()
-            /*{
+           executorService.scheduleAtFixedRate(new Runnable()
+            {
                 @Override
                 public void run()
                 {
@@ -111,7 +111,7 @@ public class SpringSessionValidationScheduler implements SessionValidationSchedu
                         sessionManager.validateSessions();
                     }
                 }
-            }, 1000, sessionValidationInterval, TimeUnit.MILLISECONDS);*/
+            }, 1000, sessionValidationInterval, TimeUnit.MILLISECONDS);
 
             this.enabled = true;
 
@@ -140,7 +140,7 @@ public class SpringSessionValidationScheduler implements SessionValidationSchedu
 
         if (this.enabled)
         {
-          //  Threads.shutdownAndAwaitTermination(executorService);
+           Threads.shutdownAndAwaitTermination(executorService);
         }
         this.enabled = false;
     }
